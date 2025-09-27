@@ -19,20 +19,9 @@ class StartCctvStreams extends Command
 
             @mkdir(dirname($outputPath), 0777, true);
 
-            $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" -c:v libx264 -preset ultrafast -tune zerolatency -hls_time 2 -hls_list_size 2 -hls_flags delete_segments -f hls \"{$outputPath}\"";
-
-            // $cmd = [
-            //     'ffmpeg',
-            //     '-i', $cam->rtsp_url,
-            //     '-c:v', 'libx264',
-            //     '-preset', 'ultrafast',
-            //     '-tune', 'zerolatency',
-            //     '-hls_time', '2',
-            //     '-hls_list_size', '5',
-            //     '-hls_flags', 'delete_segments',
-            //     '-f', 'hls',
-            //     $outputPath
-            // ];
+            // $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" -c:v libx264 -preset ultrafast -tune zerolatency -hls_time 2 -hls_list_size 2 -hls_flags delete_segments -f hls \"{$outputPath}\"";
+            $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" -c:v copy -preset ultrafast -tune zerolatency -hls_time 2 -hls_list_size 2 -hls_flags delete_segments -f hls \"{$outputPath}\"";
+            
             
             // Jalankan di background
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
