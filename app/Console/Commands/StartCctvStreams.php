@@ -15,14 +15,21 @@ class StartCctvStreams extends Command
         $cameras = Camera::all();
 
         foreach ($cameras as $cam) {
-            $outputPath = public_path("stream/{$cam->slug}/playlist.m3u8");
+            
+            $dirPath = public_path("stream/{$cam->slug}");
 
             @mkdir(dirname($outputPath), 0777, true);
+            
+            $outputPath = $dirPath . "/playlist.m3u8";
+            $segmentPath = $dirPath . "/segment_%Y%m%d_%H%M%S.ts";
 
-            // $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" -c:v libx264 -preset ultrafast -tune zerolatency -hls_time 2 -hls_list_size 2 -hls_flags delete_segments -f hls \"{$outputPath}\"";
-            $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" -c:v copy -preset ultrafast -tune zerolatency -hls_time 2 -hls_list_size 2 -hls_flags delete_segments -f hls \"{$outputPath}\"";
-            
-            
+            $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" "
+                    . "-c:v copy -preset ultrafast -tune zerolatency "
+                    . "-hls_time 2 -hls_list_size 2 -hls_flags delete_segments "
+                    . "-hls_segment_filename \"{$segmentPath}\" "
+                    . "-strftime 1 "  // ← Gunakan timestamp sebagai nama file
+                    . "\"{$outputPath}\"";
+
             // Jalankan di background
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 pclose(popen("start /B " . $cmd, "r"));

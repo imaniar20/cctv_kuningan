@@ -10,8 +10,16 @@ class Camera extends Model
     use HasFactory;
     protected $table = 'cameras';
     protected $fillable = [
+        'id_location',
         'name',
-        'email',
-        'password',
+        'rtsp_url',
+        'slug',
+        'lat',
+        'lng',
     ];
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'id_location');
+    }
 }

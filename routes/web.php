@@ -21,5 +21,5 @@ use App\Http\Controllers\CameraController;
 Route::resource('/', CameraController::class);
 
 
-Route::get('/cameras', [\App\Http\Controllers\CameraController::class, 'index'])->name('cameras.index');
-Route::get('/cameras/{camera:slug}', [\App\Http\Controllers\CameraController::class, 'show'])->name('cameras.show');
+// Route::get('/cameras', [\App\Http\Controllers\CameraController::class, 'index'])->name('cameras.index');
+// Route::get('/cameras/{camera:slug}', [\App\Http\Controllers\CameraController::class, 'show'])->name('cameras.show');
