@@ -2,10 +2,13 @@
     <div class="app-brand demo">
       <a href="/" class="app-brand-link">
         <span class="app-brand-logo demo pl-2">
-          <img src="{{ asset('assets/img/logo/e.png')}}" style="width: 40px; margin-left:30px" alt="">
+          {{-- <img src="{{ asset('assets/img/logo/e.png')}}" style="width: 40px; margin-left:30px" alt=""> --}}
+          <i class='bx bx-cctv'></i>
+          CCTV
         </span>
         <span class="app-brand-text demo menu-text fw-bolder ms-2">
-          <img src="{{ asset('assets/img/logo/sakip.png')}}"  style="width: 80px;" alt="">
+          {{-- <img src="{{ asset('assets/img/logo/sakip.png')}}"  style="width: 80px;" alt=""> --}}
+          KUNINGAN
         </span>
       </a>
 
