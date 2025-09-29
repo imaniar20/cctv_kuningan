@@ -1,105 +1,49 @@
-<!-- Core JS -->
-<!-- build:js assets/vendor/js/core.js -->
-<script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
-<script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+{{-- <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script> --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
 
-<!-- SweetAlert2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Dropify JS -->
-{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery-migrate-3.0.1.min.js') }}"></script>
+<script src="{{ asset('assets/js/popper.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.stellar.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.fancybox.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.easing.1.3.js') }}"></script>
 
-<script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
-<!-- endbuild -->
 
-<!-- Vendors JS -->
-{{-- <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script> --}}
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<!-- Main JS -->
+<script src="{{ asset('assets/js/aos.js') }}"></script>
+
+<script src="{{ asset('assets/js/bootstrap-datepicker.js') }}"></script> 
+<script src="{{ asset('assets/js/jquery.timepicker.min.js') }}"></script> 
+
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
-<!-- Page JS -->
-<script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
-<script src="{{ asset('assets/js/ui-popover.js') }}"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
+<script src="{{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
+<script src="{{ asset('assets/js/vendor/jquery-1.12.4.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/popper.min.js+bootstrap.min.js.pagespeed.jc.1THY_pwCW8.js') }}"></script> --}}
 
-<!-- Dropify JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+{{-- <script src="{{ asset('assets/js/owl.carousel.min.js+slick.min.js.pagespeed.jc.YqDU5urJVF.js') }}"></script> --}}
+{{-- <script src="{{ asset('assets/js/jquery.slicknav.min.js+wow.min.js+jquery.magnific-popup.js+jquery.nice-select.min.js+jquery.counterup.min.js+waypoints.min.js.pagespeed.jc.ZO59WbtP6X.js') }}"></script><script>eval(mod_pagespeed_PHkKEhM9y_);</script> --}}
 
-{{-- datatable --}}
-<script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+{{-- <script src="{{ asset('assets/js/contact.js+jquery.form.js+jquery.validate.min.js+mail-script.js+jquery.ajaxchimp.min.js+plugins.js+main.js.pagespeed.jc.iZz6M_SFgf.js') }}"></script>
+<script src="{{ asset('/assets/js/gijgo.min.js') }}"></script> --}}
 
-<!-- JS Select2 -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'UA-23581568-13');
+</script>
+<script defer src="" integrity="sha512-gV/bogrUTVP2N3IzTDKzgP0Js1gg4fbwtYB6ftgLbKQu/V8yH2+lrKCfKHelh4SO3DPzKj4/glTO+tNJGDnb0A==" data-cf-beacon='{"rayId":"6b379c5c2f1e4649","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.11.0","si":100}' crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const selects = document.querySelectorAll('.select2');
-        selects.forEach(select => $(select).select2());
-    });
-    
-    $(document).ready(function() {
-        $('.dropify').dropify();
-    });
-
-    $(document).ready(function() {
-        $('.datatable').each(function() {
-            if (!$.fn.DataTable.isDataTable(this)) {
-                new DataTable(this);
-            }
-        });
-
-        $('.datatable-indikator').each(function() {
-            if (!$.fn.DataTable.isDataTable(this)) {
-                new DataTable(this, {
-                    ordering: false // Menonaktifkan sorting di seluruh tabel
-                });
-            }
-        });
-    });
-
-    $(document).ready(function() {
-        $('.number_input').each(function() {
-            var input = $(this); // Mendapatkan elemen input saat ini
-
-            input.on('input', function () {
-                var number = input.val().replace(/,/g, ''); // Hapus koma
-                if (!number) return; // Jika kosong, abaikan
-
-                var n = !isFinite(+number) ? 0 : +number;
-                var decimals = 0; // Jumlah desimal
-                var sep = ','; // Pemisah ribuan
-                var dec = '.'; // Tanda desimal
-                var s = '';
-
-                // Fungsi untuk membulatkan angka
-                var toFixedFix = function (n, prec) {
-                    var k = Math.pow(10, prec);
-                    return '' + Math.round(n * k) / k;
-                };
-
-                // Proses format angka
-                s = (decimals ? toFixedFix(n, decimals) : '' + Math.round(n)).split('.');
-                if (s[0].length > 3) {
-                    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-                }
-                if ((s[1] || '').length < decimals) {
-                    s[1] = s[1] || '';
-                    s[1] += new Array(decimals - s[1].length + 1).join('0');
-                }
-
-                // Update nilai ke input
-                input.val(s.join(dec));
-            });
-        });
-    });
-</script>
 
 @if ($errors->any())
     <script>
@@ -293,18 +237,20 @@
 
         const modalContent = `
             <div class="camera-info">
-                <h6 class="fw-bold text-primary">${cameraData.name}</h6>
+                <h6 class="font-weight-bold text-primary mb-3">${cameraData.name}</h6>
                 <div class="row">
-                    <div class="col-12 mb-2">
+                    <div class="col-md-6 mb-2">
                         <strong>Kode:</strong> ${cameraData.slug}
                     </div>
-                    <div class="col-12 mb-2">
+                    <div class="col-md-6 mb-2">
                         <strong>Koordinat:</strong><br>
                         Lat: ${parseFloat(cameraData.lat).toFixed(6)}<br>
                         Lng: ${parseFloat(cameraData.lng).toFixed(6)}
                     </div>
-                    <div class="ratio ratio-16x9">
-                        <video id="${videoId}" controls autoplay style="width:100%; height:auto;"></video>
+                    <div class="col-12">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video id="${videoId}" class="embed-responsive-item" controls autoplay></video>
+                        </div>
                     </div>
                 </div>
             </div>

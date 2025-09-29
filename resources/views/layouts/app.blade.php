@@ -1,23 +1,12 @@
 @include('partials.head')
-<body>
-    <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
-            {{-- @include('partials.sidebar') --}}
-            
-            <div class="layout-page">
-                @include('partials.navbar')
+<body data-spy="scroll" data-target="#templateux-navbar" data-offset="200">
 
-                <div class="content-wrapper">
-                <div class="container-xxl flex-grow-1 container-p-y">
-                    @yield('Content')
-                </div>
+    @include('partials.navbar')
+    @include('partials.css')
+    @yield('Content')
 
-                    @include('partials.footer')
-                    <div class="content-backdrop fade"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('partials.footer')
+
     @stack('before-script')
     @include('partials.js')
     @stack('after-script')

@@ -1,6 +1,42 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
 <style>
+    @media (min-width: 1200px) {
+        .modal-xl {
+            max-width: 1140px; /* sama seperti container-xl */
+        }
+    }
+    h1 {
+        color: #ffffff; /* hitam tapi nggak terlalu tajam */
+        font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+        font-weight: 700;
+        font-size: 4rem;
+        margin-bottom: 0.5rem;
+    }
+    .site-hero {
+        position: relative;
+        overflow: hidden;
+        height: 100vh; /* tinggi section */
+    }
+
+    .site-hero .bg-blur {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('assets/images/bg.jpg');
+        background-size: cover;
+        background-position: center;
+        filter: blur(6px);
+        z-index: 0;
+    }
+
+    .site-hero .container {
+        position: relative;
+        z-index: 1; /* konten tetap di atas background blur */
+        color: white;
+    }
     .dropify-wrapper .dropify-message p {
         font-size: 14px; /* Ubah ukuran teks */
         color: #6c757d; /* Sesuaikan warna jika diperlukan */
