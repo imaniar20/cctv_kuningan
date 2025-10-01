@@ -1496,7 +1496,7 @@ textarea.form-control {
         .pb_navbar.scrolled.pb_scrolled-light ul li a:hover, .pb_navbar.scrolled.pb_scrolled-light ul li a:active, .pb_navbar.scrolled.pb_scrolled-light ul li a:focus {
           color: #6c757d !important; }
         .pb_navbar.scrolled.pb_scrolled-light ul li a.active {
-          color: #ff0000 !important; }
+          color: #fff200 !important; }
       .pb_navbar.scrolled.pb_scrolled-light ul li.cta-btn > a > span {
         border: none;
         background: #ff0000;

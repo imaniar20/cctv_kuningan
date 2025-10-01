@@ -3,7 +3,7 @@
 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
 
 
-<script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script> --}}
 <script src="{{ asset('assets/js/jquery-migrate-3.0.1.min.js') }}"></script>
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
@@ -32,14 +32,14 @@
 {{-- <script src="{{ asset('assets/js/contact.js+jquery.form.js+jquery.validate.min.js+mail-script.js+jquery.ajaxchimp.min.js+plugins.js+main.js.pagespeed.jc.iZz6M_SFgf.js') }}"></script>
 <script src="{{ asset('/assets/js/gijgo.min.js') }}"></script> --}}
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-<script>
+{{-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script> --}}
+{{-- <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
         gtag('config', 'UA-23581568-13');
-</script>
+</script> --}}
 <script defer src="" integrity="sha512-gV/bogrUTVP2N3IzTDKzgP0Js1gg4fbwtYB6ftgLbKQu/V8yH2+lrKCfKHelh4SO3DPzKj4/glTO+tNJGDnb0A==" data-cf-beacon='{"rayId":"6b379c5c2f1e4649","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.11.0","si":100}' crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>

@@ -1,6 +1,27 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
 <style>
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .btn-hover {
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    .btn-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .btn-outline-light.btn-hover:hover {
+        background-color: rgba(255,255,255,0.1);
+        border-color: #fff;
+    }
+    .btn-warning.btn-hover:hover {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        filter: brightness(1.1);
+    }
+
     @media (min-width: 1200px) {
         .modal-xl {
             max-width: 1140px; /* sama seperti container-xl */
@@ -126,3 +147,151 @@
     }
 
   </style>
+
+  <style>
+
+  .scroll-navigation {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.scroll-btn {
+    position: absolute;
+    background: #ffc107;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.2rem;
+    pointer-events: all;
+    transition: all 0.3s ease;
+}
+
+.scroll-btn:hover {
+    background: #e0a800;
+    transform: scale(1.1);
+}
+
+.scroll-prev { left: -20px; }
+.scroll-next { right: -20px; }
+</style>
+
+<style>
+.cctv-scroll-wrapper {
+    position: relative;
+    padding: 0 10px;
+}
+
+.cctv-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 1rem 0.5rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #ffc107 #f8f9fa;
+}
+
+.cctv-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.cctv-scroll-container::-webkit-scrollbar-track {
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.cctv-scroll-container::-webkit-scrollbar-thumb {
+    background: #ffc107;
+    border-radius: 10px;
+}
+
+.cctv-scroll-item {
+    flex: 0 0 auto;
+    width: 300px; /* Fixed width for consistent cards */
+}
+
+.cctv-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    min-height: 280px;
+}
+
+.cctv-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+/* Hide scrollbar on mobile */
+@media (max-width: 768px) {
+    .cctv-scroll-container {
+        scrollbar-width: none;
+    }
+    
+    .cctv-scroll-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .cctv-scroll-item {
+        width: 280px; /* Slightly smaller on mobile */
+    }
+}
+</style>
+
+<style>
+.flip-card {
+    perspective: 1000px;
+    height: 400px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    position: relative;
+}
+
+.flip-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+<script>
+function scrollHorizontal(distance) {
+    const container = document.querySelector('.cctv-scroll-container');
+    container.scrollBy({ left: distance, behavior: 'smooth' });
+}
+</script>
