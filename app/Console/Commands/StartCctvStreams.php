@@ -15,22 +15,21 @@ class StartCctvStreams extends Command
         $cameras = Camera::all();
 
         foreach ($cameras as $cam) {
-            
             $dirPath = public_path("stream/{$cam->slug}");
+            if (is_dir($dirPath)) {
+                exec("rm -rf " . escapeshellarg($dirPath));
+            }
+            mkdir($dirPath, 0777, true);
 
-            @mkdir(dirname($outputPath), 0777, true);
-            
             $outputPath = $dirPath . "/playlist.m3u8";
-            $segmentPath = $dirPath . "/segment_%Y%m%d_%H%M%S.ts";
+            $segmentPath = $dirPath . "/segment_%d.ts";
 
             $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" "
-                    . "-c:v copy -preset ultrafast -tune zerolatency "
-                    . "-hls_time 2 -hls_list_size 2 -hls_flags delete_segments "
-                    . "-hls_segment_filename \"{$segmentPath}\" "
-                    . "-strftime 1 "  // ← Gunakan timestamp sebagai nama file
-                    . "\"{$outputPath}\"";
+                . "-c:v copy -preset ultrafast -tune zerolatency "
+                . "-hls_time 2 -hls_list_size 1 -hls_flags delete_segments "
+                . "-hls_segment_filename \"{$segmentPath}\" "
+                . "\"{$outputPath}\"";
 
-            // Jalankan di background
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 pclose(popen("start /B " . $cmd, "r"));
             } else {

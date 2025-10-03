@@ -13,13 +13,12 @@ class CameraController extends Controller
     public function index()
     {
         $cameras = Camera::with('location')->get();
-        $locations = Location::with('camera')->get();
+        // $locations = Location::with('camera')->get();
         
         $data = [
             'head' => 'Dashboard',
             'menu' => 'Dashboard',
-            'cameras' => $cameras,
-            'locations' => $locations
+            'cameras' => $cameras
         ];
         return view('dashboard/index')->with($data);
     }

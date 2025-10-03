@@ -248,8 +248,16 @@
                         Lng: ${parseFloat(cameraData.lng).toFixed(6)}
                     </div>
                     <div class="col-12">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <video id="${videoId}" class="embed-responsive-item" controls autoplay></video>
+                        <div class="ratio ratio-16x9"> <!-- Bootstrap 5 pengganti embed-responsive -->
+                            <video 
+                                id="${videoId}" 
+                                class="w-100 h-100"
+                                autoplay 
+                                muted 
+                                playsinline
+                                controlslist="nodownload noplaybackrate nofullscreen"
+                                disablepictureinpicture>
+                            </video>
                         </div>
                     </div>
                 </div>
