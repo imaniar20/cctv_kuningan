@@ -139,31 +139,31 @@
 
         <!-- Horizontal Scroll Container -->
         <div class="cctv-scroll-wrapper">
-            <div class="cctv-scroll-container" data-aos="fade-up">
+            <div class="cctv-scroll-container" id="camera-status-list" data-aos="fade-up">
                 @foreach($cameras as $data)
-                <div class="cctv-scroll-item">
-                    <div class="card cctv-card h-100 border-0 shadow-sm">
-                        <div class="card-header bg-warning text-dark py-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0 fw-bold">CCTV {{ $data->name }}</h5>
-                                <i class='bx bx-cctv fs-4'></i>
+                    <div class="cctv-scroll-item camera-status" data-slug="{{ $data->slug }}">
+                        <div class="card cctv-card h-100 border-0 shadow-sm">
+                            <div class="card-header bg-warning text-dark py-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">CCTV {{ $data->name }}</h5>
+                                    <i class='bx bx-cctv fs-4'></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="text-primary mb-2">Lokasi Strategis {{ $data->location->nama }}</h6>
-                            <p class="text-muted small mb-3">Pemantauan area publik dan lalu lintas</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-success">Online</span>
-                                <small class="text-muted">24/7 Active</small>
+                            <div class="card-body">
+                                <h6 class="text-primary mb-2">Lokasi Strategis {{ $data->location->nama }}</h6>
+                                <p class="text-muted small mb-3">Pemantauan area publik dan lalu lintas</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="status-text">Checking...</span>
+                                    <small class="text-muted">24/7 Active</small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-0">
-                            <button class="btn btn-outline-primary btn-sm w-100" onclick="showCameraModal({{ $data->id }})">
-                                <i class='bx bx-play-circle me-1'></i>Live View
-                            </button>
+                            <div class="card-footer bg-transparent border-0">
+                                <button class="btn btn-outline-primary btn-sm w-100" onclick="showCameraModal({{ $data->id }})">
+                                    <i class='bx bx-play-circle me-1'></i>Live View
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
             <div class="scroll-navigation d-none d-lg-block">
@@ -192,22 +192,22 @@
             <div class="col-12">
                 <div class="bg-white rounded-3 p-4 shadow-sm">
                     <div class="row text-center">
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-4 mb-3">
                             <div class="display-6 fw-bold text-warning">{{ count($cameras) }}</div>
                             <div class="text-muted">Total CCTV</div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="display-6 fw-bold text-success">{{ count($cameras) }}</div>
+                        <div class="col-md-4 mb-3">
+                            <div class="display-6 fw-bold text-success"><span id="online-count">0</span></div>
                             <div class="text-muted">Online</div>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-4 mb-3">
                             <div class="display-6 fw-bold text-primary">24/7</div>
                             <div class="text-muted">Operasional</div>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        {{-- <div class="col-md-3 mb-3">
                             <div class="display-6 fw-bold text-info">100%</div>
                             <div class="text-muted">Coverage Area</div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -237,4 +237,23 @@
   </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+function updateStatus() {
+    $.get('/dashboard/cameras/status', function(res) {
+        // update per kamera
+        res.cameras.forEach(cam => {
+            let el = $(`.camera-status[data-slug="${cam.slug}"] .status-text`);
+            el.text(cam.status);
+            el.css("color", cam.status === "online" ? "green" : "red");
+        });
+
+        // update counter
+        $("#online-count").text(res.online);
+    });
+}
+
+setInterval(updateStatus, 5000);
+updateStatus();
+</script>
 @endsection
