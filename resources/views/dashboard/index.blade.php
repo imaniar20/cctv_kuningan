@@ -150,7 +150,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h6 class="text-primary mb-2">Lokasi Strategis {{ $data->location->nama }}</h6>
+                                {{-- <h6 class="text-primary mb-2">Lokasi Strategis {{ $data->location->nama }}</h6> --}}
+                                <h6 class="text-primary mb-2">Lokasi Strategis {{ $data->name }}</h6>
                                 <p class="text-muted small mb-3">Pemantauan area publik dan lalu lintas</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="status-text">Checking...</span>

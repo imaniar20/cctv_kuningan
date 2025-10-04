@@ -7,17 +7,6 @@ use App\Http\Middleware\CheckLogin;
 
 use App\Models\Camera;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', function () {
     $cameras = Camera::with('location')->get();
     $result = [];
@@ -68,7 +57,6 @@ Route::group(['middleware' => 'auth'], function () {
                     continue;
                 }
 
-                // cek last modified, misalnya kalau lebih dari 15 detik dianggap offline
                 $lastModified = filemtime($file);
                 if (time() - $lastModified > 15) {
                     $statuses[$cam->slug] = 'offline';
