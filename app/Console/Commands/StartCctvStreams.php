@@ -16,13 +16,16 @@ class StartCctvStreams extends Command
 
         foreach ($cameras as $cam) {
             $dirPath = public_path("stream/{$cam->slug}");
-            if (is_dir($dirPath)) {
-                exec("rm -rf " . escapeshellarg($dirPath));
+
+            if (!is_dir($dirPath)) {
+                mkdir($dirPath, 0777, true);
+            } else {
+                // bersihin isi folder biar nggak bentrok segment lama
+                array_map('unlink', glob("$dirPath/*"));
             }
-            mkdir($dirPath, 0777, true);
 
             $outputPath = $dirPath . "/playlist.m3u8";
-            $segmentPath = $dirPath . "/segment_%d.ts";
+            $segmentPath = $dirPath . "/segment_%Y%m%d_%H%M%S.ts";
 
             $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" "
                 . "-c:v copy -preset ultrafast -tune zerolatency "

@@ -67,10 +67,10 @@
                         <p class="mb-0 small">Kuningan, Jawa Barat 45511</p>
                     </div>
                 </div>
-                <div class="d-flex align-items-center">
+                {{-- <div class="d-flex align-items-center">
                     <i class='bx bx-time text-warning me-2'></i>
                     <span class="small">Operasional: 16/7</span>
-                </div>
+                </div> --}}
             </div>
         </div>
 
