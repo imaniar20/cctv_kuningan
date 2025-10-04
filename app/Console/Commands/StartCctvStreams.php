@@ -16,22 +16,27 @@ class StartCctvStreams extends Command
 
         foreach ($cameras as $cam) {
             $dirPath = public_path("stream/{$cam->slug}");
-
-            if (!is_dir($dirPath)) {
-                mkdir($dirPath, 0777, true);
+            
+            if (is_dir($dirPath)) {
+                $files = glob("$dirPath/*");
+                foreach ($files as $file) {
+                    if (is_file($file)) {
+                        unlink($file);
+                    }
+                }
             } else {
-                // bersihin isi folder biar nggak bentrok segment lama
-                array_map('unlink', glob("$dirPath/*"));
+                mkdir($dirPath, 0777, true);
             }
 
             $outputPath = $dirPath . "/playlist.m3u8";
             $segmentPath = $dirPath . "/segment_%Y%m%d_%H%M%S.ts";
 
             $cmd = "ffmpeg -i \"{$cam->rtsp_url}\" "
-                . "-c:v copy -preset ultrafast -tune zerolatency "
-                . "-hls_time 2 -hls_list_size 1 -hls_flags delete_segments "
-                . "-hls_segment_filename \"{$segmentPath}\" "
-                . "\"{$outputPath}\"";
+                    . "-c:v copy -preset ultrafast -tune zerolatency "
+                    . "-hls_time 2 -hls_list_size 2 -hls_flags delete_segments "
+                    . "-hls_segment_filename \"{$segmentPath}\" "
+                    . "-strftime 1 "
+                    . "\"{$outputPath}\"";
 
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 pclose(popen("start /B " . $cmd, "r"));
