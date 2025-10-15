@@ -9,8 +9,8 @@
         <div class="row site-hero-inner justify-content-center align-items-center">
             <div class="col-md-10 text-center" data-aos="fade-up">
                 <hr>
-                <h1 class="text-shadow text-white">ATCS Kabupaten Kuningan</h1>
-                <h2 class="text-shadow text-white">Selamat datang di Website resmi ATCS Kabupaten Kuningan</h2>
+                <h1 class="text-shadow text-white">Panon Kabupaten Kuningan</h1>
+                <h2 class="text-shadow text-white">Selamat datang di Website resmi Monitoring CCTV Kabupaten Kuningan</h2>
                 <hr>
             </div>
         </div>
@@ -96,12 +96,12 @@
                 </div>
             </div>
             <div class="col-md-12 col-lg-5 order-lg-1" data-aos="fade-down">
-            <h2 class="heading mb-4 text-shadow" data-aos="fade-down">Tentang <span class="text-warning text-shadow">ATCS</span></h2>
+            <h2 class="heading mb-4 text-shadow" data-aos="fade-down">Tentang Panon<span class="text-warning text-shadow"> Kabupaten Kuningan</span></h2>
                 <p class="mb-7">
-                    <span class="text-warning fw-bold">ATCS CCTV Kuningan</span> menawarkan sistem pemantauan terintegrasi dengan fitur lengkap:
+                    <span class="text-warning fw-bold">CCTV Kuningan</span> menawarkan sistem pemantauan terintegrasi dengan fitur lengkap:
                 </p>
                 <p class="mb-7 fs-5">
-                    Dengan <strong class="text-warning">13 kamera canggih</strong>, ATCS CCTV Kuningan memberikan akses langsung untuk memantau fasilitas publik dan perkantoran secara <strong>real-time</strong>. Kecepatan akses dan transparansi informasi menjadi komitmen kami dalam menciptakan lingkungan yang lebih aman.
+                    Dengan <strong class="text-warning">13 kamera canggih</strong>, CCTV Kuningan memberikan akses langsung untuk memantau fasilitas publik dan perkantoran secara <strong>real-time</strong>. Kecepatan akses dan transparansi informasi menjadi komitmen kami dalam menciptakan lingkungan yang lebih aman.
                 </p>
                 {{-- <p><a href="https://youtu.be/mDRuTZTXslc"  data-fancybox class="btn btn-primary text-white py-2 mr-3 text-uppercase letter-spacing-1">Watch the video</a></p> --}}
             </div>

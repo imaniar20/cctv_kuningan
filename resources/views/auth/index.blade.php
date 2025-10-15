@@ -32,7 +32,8 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets_2/img/favicon/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/kuningan.png">
+    
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

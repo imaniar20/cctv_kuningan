@@ -32,7 +32,8 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets_2/img/favicon/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/kuningan.png">
+    
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -139,8 +140,17 @@
                             <div class="col-6">
                                 <h6 class="mt-2">CCTV KABUPATEN KUNINGAN</h6>
                             </div>
-                            <div class="col-6 text-end">
-                                <a href="" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tambahCctv"><i class="bx bx-plus-circle"></i> Tambah Cctv</a>
+                            <div class="col-6">
+                              <div class="row">
+                                <div class="col-7 text-end">
+                                  <form action="{{ route('start.cctv') }}" method="GET" onsubmit="return confirm('Jalankan CCTV sekarang?')">
+                                      <button type="submit" class="btn btn-sm btn-warning"><i class="bx bx-refresh"></i> Jalankan Ulang Cctv</button>
+                                  </form>
+                                </div>
+                                <div class="col-5">
+                                  <a href="" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tambahCctv"><i class="bx bx-plus-circle"></i> Tambah Cctv</a>
+                                </div>
+                              </div>
                             </div>
                         </div>
                         <hr>

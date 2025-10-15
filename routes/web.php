@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CameraController;
 use App\Http\Middleware\CheckLogin;
@@ -75,4 +78,15 @@ Route::group(['middleware' => 'auth'], function () {
         })->name('dashboard');
     });
     Route::resource('/cctv', CameraController::class);
+    
+    Route::get('/start-cctv', function () {
+        try {
+            Artisan::call('cctv:start');
+            Log::info('CCTV command executed by web button');
+            return back()->with('success', 'CCTV service started successfully.');
+        } catch (\Exception $e) {
+            Log::error('CCTV start failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to start CCTV service.'. $e->getMessage());
+        }
+    })->name('start.cctv');
 });
