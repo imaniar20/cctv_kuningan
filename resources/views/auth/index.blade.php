@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Login - Panon CCTV</title>
 
     <meta name="description" content="" />
 
@@ -76,7 +76,7 @@
             <div class="card-body">
               <!-- Logo -->
               <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
+                <a href="/" class="app-brand-link gap-2">
                   <h3 class="demo text-body fw-bolder">ATCS KUNINGAN</h3>
                 </a>
               </div>
