@@ -42,12 +42,12 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             $user = Auth::user();
-            if($user->active==1){
+            // if($user->active==1){
                 $request->session()->put('user', $user);
                 return redirect()->intended('/dashboard');
-            } else{
-                return redirect('login')->with('login_active', 'Akun Sudah Tidak Aktif. Mohon Hubungi Admin');
-            }
+            // } else{
+            //     return redirect('login')->with('login_active', 'Akun Sudah Tidak Aktif. Mohon Hubungi Admin');
+            // }
         } else {
             return redirect('/login')->with('login_gagal', 'Username atau Password Tidak Terdaftar.');
         }
