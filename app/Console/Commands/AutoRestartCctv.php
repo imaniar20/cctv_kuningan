@@ -20,7 +20,7 @@ class AutoRestartCctv extends Command
         $this->info("🔍 Checking camera status...");
 
         foreach ($cameras as $cam) {
-            $file = public_path("stream\\{$cam->slug}\\playlist.m3u8");
+            $file = public_path("stream/{$cam->slug}/playlist.m3u8");
             $status = 'offline';
             
             if (file_exists($file)) {

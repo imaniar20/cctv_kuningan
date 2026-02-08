@@ -9,79 +9,112 @@ use Illuminate\Support\Facades\Log;
 class StartCctvStreams extends Command
 {
     protected $signature = 'cctv:start {id?}';
-    protected $description = 'Menjalankan ffmpeg untuk kamera';
-    
+    protected $description = 'Menjalankan ffmpeg untuk semua kamera atau 1 kamera spesifik';
+
     public function handle()
     {
+        // Ambil ID dari argument (optional)
         $id = $this->argument('id');
+
+        // Jika ada ID, ambil 1 kamera saja. Jika tidak, ambil semua.
         $cameras = $id ? Camera::where('id', $id)->get() : Camera::all();
-        
-        foreach ($cameras as $cam) {
-            $this->startStreamForCamera($cam);
+
+        if ($cameras->isEmpty()) {
+            $this->error('❌ Tidak ada kamera ditemukan.');
+            return 1;
         }
+
+        foreach ($cameras as $cam) {
+            $this->startCamera($cam);
+        }
+
+        $this->info("✅ Selesai! Total {$cameras->count()} kamera dijalankan.");
+        return 0;
     }
-    
-    protected function startStreamForCamera($cam)
+
+    private function startCamera($cam)
     {
-        $dirPath = public_path("stream/{$cam->slug}"); // Windows pakai backslash
-        
-        // Buat folder jika belum ada
+        // Path folder stream untuk kamera ini
+        $dirPath = public_path("stream/{$cam->slug}");
+
+        // Hapus folder lengkap dengan fungsi rekursif
+        $this->deleteDirectory($dirPath);
+
+        // Beri jeda sebelum membuat folder baru
+        usleep(50000); // 0.05 detik
+
+        // Buat folder baru
         if (!is_dir($dirPath)) {
             mkdir($dirPath, 0777, true);
-            $this->info("📁 Created directory: {$dirPath}");
+            $this->info("📁 Folder {$cam->slug} dibuat ulang.");
         }
-        
-        // Hapus file lama (optional)
-        $files = glob("{$dirPath}\\*");
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                @unlink($file);
-            }
-        }
-        
-        $outputPath = $dirPath . "\\playlist.m3u8";
-        $segmentPath = $dirPath . "\\segment_%Y%m%d_%H%M%S.ts";
-        
-        // FULL PATH ke ffmpeg.exe
-        $ffmpegPath = 'ffmpeg.exe'; // Sesuaikan dengan lokasi ffmpeg Anda
-        
-        // Build command
+
+        // Sisanya sama seperti sebelumnya...
+        $outputPath = "{$dirPath}/playlist.m3u8";
+        $segmentPath = "{$dirPath}/segment_%Y%m%d_%H%M%S.ts";
+
         $cmd = sprintf(
-            '"%s" -loglevel error -i "%s" -c:v copy -preset ultrafast -tune zerolatency -hls_time 2 -hls_list_size 2 -hls_flags delete_segments -hls_segment_filename "%s" -strftime 1 "%s"',
-            $ffmpegPath,
+            'ffmpeg -loglevel error -i "%s" -c:v copy -preset ultrafast -tune zerolatency -hls_time 2 -hls_list_size 2 -hls_flags delete_segments -hls_segment_filename "%s" -strftime 1 "%s"',
             $cam->rtsp_url,
             $segmentPath,
             $outputPath
         );
-        
-        // Log command untuk debug
-        $this->info("🔧 Command: {$cmd}");
-        Log::info("CCTV Command for {$cam->slug}: {$cmd}");
-        
-        // Jalankan di background
-        $fullCmd = 'start /B cmd /c "' . $cmd . ' 2>&1"';
-        
-        $this->info("🚀 Executing: {$fullCmd}");
-        
-        // Execute
-        $handle = popen($fullCmd, 'r');
-        
-        if ($handle) {
-            pclose($handle);
-            $this->info("✅ Started ffmpeg for: {$cam->name}");
-            Log::info("ffmpeg started for {$cam->slug}");
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            pclose(popen("start /B " . $cmd, "r"));
         } else {
-            $this->error("❌ Failed to start ffmpeg for: {$cam->name}");
-            Log::error("Failed to start ffmpeg for {$cam->slug}");
+            exec($cmd . " > /dev/null 2>&1 &");
         }
-        
-        // Wait 2 seconds and check if file exists
-        sleep(2);
-        
-        if (file_exists($outputPath)) {
-            $this->info("✅ File created: {$outputPath}");
+
+        $this->info("🎥 {$cam->name} → {$outputPath}");
+        Log::info("CCTV started: {$cam->slug} (ID: {$cam->id})");
+    }
+
+    // Tambahkan fungsi helper untuk menghapus direktori secara rekursif
+    private function deleteDirectory($dir)
+    {
+        if (!file_exists($dir)) {
+            return;
+        }
+
+        // Hentikan proses FFmpeg yang mungkin masih berjalan
+        $this->killFfmpegProcess($dir);
+
+        // Tunggu sebentar untuk memastikan proses mati
+        usleep(100000);
+
+        // Hapus semua file dan subdirectory
+        $files = array_diff(scandir($dir), array('.', '..'));
+        foreach ($files as $file) {
+            $path = $dir . '/' . $file;
+            if (is_dir($path)) {
+                $this->deleteDirectory($path);
+            } else {
+                @unlink($path);
+            }
+        }
+
+        // Hapus directory utama
+        @rmdir($dir);
+
+        $this->info("🗑️  Folder dihapus: " . basename($dir));
+    }
+
+    // Fungsi untuk menghentikan proses FFmpeg yang terkait
+    private function killFfmpegProcess($dirPath)
+    {
+        $folderName = basename($dirPath);
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            // Windows: gunakan taskkill
+            exec("taskkill /F /IM ffmpeg.exe 2>nul 1>nul");
         } else {
-            $this->warn("⚠️ File not yet created (might need more time): {$outputPath}");
+            // Linux: kill proses ffmpeg yang terkait folder ini
+            exec("pkill -f 'ffmpeg.*{$folderName}' 2>/dev/null");
+            // Tunggu sebentar
+            usleep(50000);
+            // Kill lagi untuk memastikan
+            exec("pkill -9 -f 'ffmpeg.*{$folderName}' 2>/dev/null");
         }
     }
 }
