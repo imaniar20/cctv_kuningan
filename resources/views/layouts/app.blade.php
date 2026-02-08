@@ -10,5 +10,4 @@
     @stack('before-script')
     @include('partials.js')
     @stack('after-script')
-    @include('partials.session')
 </body>

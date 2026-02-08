@@ -21,5 +21,4 @@
     @stack('before-script')
     @include('Front/Partials.js')
     @stack('after-script')
-    @include('Front/Partials.session')
 </body>

@@ -46,12 +46,15 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/cameras/status', [CameraController::class, 'statusCameras']);
 Route::get('/dashboard/cameras/status', [CameraController::class, 'statusCamerasDash']);
+Route::post('/start-camera', [CameraController::class, 'start'])->name('start.camera');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::middleware([CheckLogin::class])->group(function () {
         Route::get('/dashboard', function () {
             $cameras = Camera::with('location')->get();
-            
+            if($cameras){
+                $statuses = null;
+            }
             foreach ($cameras as $cam) {
                 $file = public_path("stream/{$cam->slug}/playlist.m3u8");
 
@@ -59,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
                     $statuses[$cam->slug] = 'offline';
                     continue;
                 }
+                
 
                 $lastModified = filemtime($file);
                 if (time() - $lastModified > 15) {

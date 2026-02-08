@@ -80,7 +80,9 @@
               <!-- Search -->
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  
+                  <a class="navbar-brand me-auto" href="/">
+                    <img src="{{ asset('assets/img/logo/kuningan.png') }}" style="height: 55px" alt="Logo Kuningan">
+                </a>
                 </div>
               </div>
               <!-- /Search -->

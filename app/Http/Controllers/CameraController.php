@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use voku\helper\AntiXSS;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Camera;
 use App\Models\Location;
@@ -24,11 +26,12 @@ class CameraController extends Controller
         // return view('dashboard/index')->with($data);
     }
 
-    public function Store(Request $request){
+    public function Store(Request $request)
+    {
         $antiXss = new AntiXSS();
 
         $name = $antiXss->xss_clean($request->input('name'));
-        $slug = Str::slug($name); 
+        $slug = Str::slug($name);
 
         $originalSlug = $slug;
         $counter = 1;
@@ -39,7 +42,7 @@ class CameraController extends Controller
         $cleanedData = [
             'id_location' => 1,
             'name' => $name,
-            'slug'  => $slug,
+            'slug' => $slug,
             'rtsp_url' => $antiXss->xss_clean($request->input('rtsp')),
             'lat' => $antiXss->xss_clean($request->input('lat')),
             'lng' => $antiXss->xss_clean($request->input('lng')),
@@ -54,9 +57,9 @@ class CameraController extends Controller
     {
         $antiXss = new AntiXSS();
         $camera = Camera::findOrFail($antiXss->xss_clean($request->input('id_cctv')));
-        
+
         $name = $antiXss->xss_clean($request->input('edit_name'));
-        $slug = Str::slug($name); 
+        $slug = Str::slug($name);
 
         $originalSlug = $slug;
         $counter = 1;
@@ -67,7 +70,7 @@ class CameraController extends Controller
         $cleanedData = [
             'id_location' => 1,
             'name' => $name,
-            'slug'  => $slug,
+            'slug' => $slug,
             'rtsp_url' => $antiXss->xss_clean($request->input('edit_rtsp')),
             'lat' => $antiXss->xss_clean($request->input('edit_lat')),
             'lng' => $antiXss->xss_clean($request->input('edit_lng')),
@@ -106,8 +109,8 @@ class CameraController extends Controller
             }
 
             $result[] = [
-                'name'   => $cam->name,
-                'slug'   => $cam->slug,
+                'name' => $cam->name,
+                'slug' => $cam->slug,
                 'status' => $status,
             ];
         }
@@ -134,17 +137,61 @@ class CameraController extends Controller
             }
 
             $result[] = [
-                'name'   => $cam->name,
-                'slug'   => $cam->slug,
+                'name' => $cam->name,
+                'slug' => $cam->slug,
                 'status' => $status,
             ];
         }
 
         return response()->json([
             'cameras' => $result,
-            'online'  => $onlineCount,
-            'total'   => $cameras->count(),
+            'online' => $onlineCount,
+            'total' => $cameras->count(),
         ]);
+    }
+
+    public function start(Request $request)
+    {
+        $request->validate(['slug' => 'required|string']);
+        $slug = $request->input('slug');
+
+        $cacheKey = "cctv_attempt_{$slug}";
+        $added = Cache::add($cacheKey, true, 10);
+
+        if (!$added) {
+            return response()->json([
+                'status' => 'throttled',
+                'message' => 'Tunggu 10 detik sebelum mencoba lagi.'
+            ], 429);
+        }
+
+        $cam = Camera::where('slug', $slug)->first();
+
+        if (!$cam) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Camera not found.'
+            ], 404);
+        }
+
+        try {
+            // Jalankan command dengan ID kamera
+            Artisan::call('cctv:start', ['id' => $cam->id]);
+
+            Log::info("CCTV start triggered via API for {$slug}");
+
+            return response()->json([
+                'status' => 'started',
+                'message' => 'Camera started successfully.'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error("Failed to start camera {$slug}: " . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to start camera: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
 }
