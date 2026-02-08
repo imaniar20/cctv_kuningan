@@ -23,7 +23,7 @@ class StartCctvStreams extends Command
     
     protected function startStreamForCamera($cam)
     {
-        $dirPath = public_path("stream\\{$cam->slug}"); // Windows pakai backslash
+        $dirPath = public_path("stream/{$cam->slug}"); // Windows pakai backslash
         
         // Buat folder jika belum ada
         if (!is_dir($dirPath)) {
