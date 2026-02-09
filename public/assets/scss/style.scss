@@ -902,34 +902,34 @@ textarea.form-control {
 }
 
 /* Mouse Animation */
-.mouse{
-  // margin: 50px auto;
-  width: 100px;
-  display: inline-block;
-  position: absolute;
-  left: 50%;
-  bottom: 140px;
-  z-index: 1;
-  transform: translateX(-25%);
-}.mouse-icon{
-   width: 25px;
-   height: 45px;
-   border: 2px solid white;
-   border-radius: 15px;
-   cursor: pointer;
-   position: relative;
-   text-align: center;
-}.mouse-wheel{
-  height: 6px;
-  margin: 2px auto 0;
-  display: block;
-  width: 3px;
-  background-color: white;
-  border-radius: 50%;
-  -webkit-animation: 1.6s ease infinite wheel-up-down;
- -moz-animation: 1.6s ease infinite wheel-up-down;
-  animation: 1.6s ease infinite wheel-up-down;
-}
+// .mouse{
+//   // margin: 50px auto;
+//   width: 100px;
+//   display: inline-block;
+//   position: absolute;
+//   left: 50%;
+//   bottom: 140px;
+//   z-index: 1;
+//   transform: translateX(-25%);
+// }.mouse-icon{
+//    width: 25px;
+//    height: 45px;
+//    border: 2px solid white;
+//    border-radius: 15px;
+//    cursor: pointer;
+//    position: relative;
+//    text-align: center;
+// }.mouse-wheel{
+//   height: 6px;
+//   margin: 2px auto 0;
+//   display: block;
+//   width: 3px;
+//   background-color: white;
+//   border-radius: 50%;
+//   -webkit-animation: 1.6s ease infinite wheel-up-down;
+//  -moz-animation: 1.6s ease infinite wheel-up-down;
+//   animation: 1.6s ease infinite wheel-up-down;
+// }
 @-webkit-keyframes wheel-up-down {
 	0% {
 	    margin-top: 2px;

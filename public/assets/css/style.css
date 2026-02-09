@@ -711,7 +711,7 @@ textarea.form-control {
   line-height: 1.2; }
 
 /* Mouse Animation */
-.mouse {
+/* .mouse {
   width: 100px;
   display: inline-block;
   position: absolute;
@@ -740,7 +740,7 @@ textarea.form-control {
   border-radius: 50%;
   -webkit-animation: 1.6s ease infinite wheel-up-down;
   -moz-animation: 1.6s ease infinite wheel-up-down;
-  animation: 1.6s ease infinite wheel-up-down; }
+  animation: 1.6s ease infinite wheel-up-down; } */
 
 @-webkit-keyframes wheel-up-down {
   0% {
