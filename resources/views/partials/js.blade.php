@@ -100,127 +100,127 @@
 </script>
 
 <script>
-    currentMap = L.map('map').setView([-6.97583, 108.6], 12);
+    // currentMap = L.map('map').setView([-6.97583, 108.6], 12);
 
-    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        name: 'OpenStreetMap'
-    });
+    // const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     attribution: '© OpenStreetMap contributors',
+    //     name: 'OpenStreetMap'
+    // });
 
-    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '© Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-        name: 'Satellite'
-    });
+    // const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    //     attribution: '© Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+    //     name: 'Satellite'
+    // });
 
-    const hybridLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '© Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-        name: 'Hybrid'
-    });
+    // const hybridLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    //     attribution: '© Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+    //     name: 'Hybrid'
+    // });
 
-    const labelsLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '© Esri',
-        name: 'Labels'
-    });
+    // const labelsLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    //     attribution: '© Esri',
+    //     name: 'Labels'
+    // });
 
-    osmLayer.addTo(currentMap);
+    // osmLayer.addTo(currentMap);
 
-    const baseLayers = {
-        "🛰️ Satelit": satelliteLayer,
-        "🗺️ Peta Jalan": osmLayer,
-        "🌍 Hybrid": L.layerGroup([satelliteLayer, labelsLayer])
-    };
+    // const baseLayers = {
+    //     "🛰️ Satelit": satelliteLayer,
+    //     "🗺️ Peta Jalan": osmLayer,
+    //     "🌍 Hybrid": L.layerGroup([satelliteLayer, labelsLayer])
+    // };
 
-    L.control.layers(baseLayers).addTo(currentMap);
+    // L.control.layers(baseLayers).addTo(currentMap);
 
-    drawnItems = new L.FeatureGroup();
-    currentMap.addLayer(drawnItems);
+    // drawnItems = new L.FeatureGroup();
+    // currentMap.addLayer(drawnItems);
 
-    drawControl = new L.Control.Draw({
-        position: 'topright',
-        draw: {
-            polygon: {
-                allowIntersection: false,
-                drawError: {
-                    color: '#e1e100',
-                    message: '<strong>Error:</strong> Polygon tidak boleh berpotongan!'
-                },
-                shapeOptions: {
-                    color: '#3B82F6',
-                    fillOpacity: 0.3
-                }
-            },
-            polyline: false,
-            rectangle: false,
-            circle: false,
-            marker: false,
-            circlemarker: false
-        },
-        edit: {
-            featureGroup: drawnItems,
-            remove: true
-        }
-    });
+    // drawControl = new L.Control.Draw({
+    //     position: 'topright',
+    //     draw: {
+    //         polygon: {
+    //             allowIntersection: false,
+    //             drawError: {
+    //                 color: '#e1e100',
+    //                 message: '<strong>Error:</strong> Polygon tidak boleh berpotongan!'
+    //             },
+    //             shapeOptions: {
+    //                 color: '#3B82F6',
+    //                 fillOpacity: 0.3
+    //             }
+    //         },
+    //         polyline: false,
+    //         rectangle: false,
+    //         circle: false,
+    //         marker: false,
+    //         circlemarker: false
+    //     },
+    //     edit: {
+    //         featureGroup: drawnItems,
+    //         remove: true
+    //     }
+    // });
 
-    // Event handlers for drawing
-    currentMap.on(L.Draw.Event.CREATED, function (e) {
-        const layer = e.layer;
-        tempPolygon = layer;
+    // // Event handlers for drawing
+    // currentMap.on(L.Draw.Event.CREATED, function (e) {
+    //     const layer = e.layer;
+    //     tempPolygon = layer;
         
-        // Show assignment modal
-        populatePolygonKelompokSelect();
-        document.getElementById('polygonAssignModal').classList.remove('hidden');
-    });
+    //     // Show assignment modal
+    //     populatePolygonKelompokSelect();
+    //     document.getElementById('polygonAssignModal').classList.remove('hidden');
+    // });
 
-    currentMap.on(L.Draw.Event.EDITED, function (e) {
-        const layers = e.layers;
-        layers.eachLayer(function (layer) {
-            // Update polygon data if needed
-            updatePolygonData(layer);
-        });
-        updateMapStats();
-    });
+    // currentMap.on(L.Draw.Event.EDITED, function (e) {
+    //     const layers = e.layers;
+    //     layers.eachLayer(function (layer) {
+    //         // Update polygon data if needed
+    //         updatePolygonData(layer);
+    //     });
+    //     updateMapStats();
+    // });
 
-    currentMap.on(L.Draw.Event.DELETED, function (e) {
-        const layers = e.layers;
-        layers.eachLayer(function (layer) {
-            // Remove from mapPolygons array
-            mapPolygons = mapPolygons.filter(p => p.leafletId !== layer._leaflet_id);
-        });
-        updateMapStats();
-    });
+    // currentMap.on(L.Draw.Event.DELETED, function (e) {
+    //     const layers = e.layers;
+    //     layers.eachLayer(function (layer) {
+    //         // Remove from mapPolygons array
+    //         mapPolygons = mapPolygons.filter(p => p.leafletId !== layer._leaflet_id);
+    //     });
+    //     updateMapStats();
+    // });
 
-    const customIcon = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
+    // const customIcon = L.icon({
+    //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+    //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    //     iconSize: [25, 41],
+    //     iconAnchor: [12, 41],
+    //     popupAnchor: [1, -34],
+    //     shadowSize: [41, 41]
+    // });
 
-    // Fungsi untuk menambah marker dengan data Camera
-    function addCameraMarker(cameraData) {
-        const marker = L.marker([parseFloat(cameraData.lat), parseFloat(cameraData.lng)], { 
-            icon: customIcon 
-        })
-        .addTo(currentMap)
-        // .on('click', function(e) {
-        //     showCameraModal(cameraData);
-        // });
+    // // Fungsi untuk menambah marker dengan data Camera
+    // function addCameraMarker(cameraData) {
+    //     const marker = L.marker([parseFloat(cameraData.lat), parseFloat(cameraData.lng)], { 
+    //         icon: customIcon 
+    //     })
+    //     .addTo(currentMap)
+    //     // .on('click', function(e) {
+    //     //     showCameraModal(cameraData);
+    //     // });
         
-        // Tambahkan popup
-        marker.bindPopup(`
-            <div class="text-center">
-                <strong>${cameraData.name}</strong><br>
-                <small>${cameraData.slug}</small><br>
-                <button class="btn btn-sm btn-primary mt-1" onclick="showCameraModal(${cameraData.id})">
-                    Lihat Detail
-                </button>
-            </div>
-        `);
+    //     // Tambahkan popup
+    //     marker.bindPopup(`
+    //         <div class="text-center">
+    //             <strong>${cameraData.name}</strong><br>
+    //             <small>${cameraData.slug}</small><br>
+    //             <button class="btn btn-sm btn-primary mt-1" onclick="showCameraModal(${cameraData.id})">
+    //                 Lihat Detail
+    //             </button>
+    //         </div>
+    //     `);
         
-        return marker;
-    }
+    //     return marker;
+    // }
 
     // Fungsi untuk menampilkan modal berdasarkan ID
     function showCameraModal(cameraId) {
@@ -289,20 +289,20 @@
     const camerasData = @json($cameras);
 
     // Tambahkan semua markers setelah peta siap
-    currentMap.whenReady(function() {
-        // Loop melalui setiap camera dan tambahkan marker
-        camerasData.forEach(camera => {
-            addCameraMarker(camera);
-        });
+    // currentMap.whenReady(function() {
+    //     // Loop melalui setiap camera dan tambahkan marker
+    //     camerasData.forEach(camera => {
+    //         addCameraMarker(camera);
+    //     });
         
-        // Optional: Fit bounds untuk menampilkan semua marker
-        if (camerasData.length > 0) {
-            const group = new L.featureGroup(
-                camerasData.map(camera => 
-                    L.marker([parseFloat(camera.lat), parseFloat(camera.lng)])
-                )
-            );
-            currentMap.fitBounds(group.getBounds().pad(0.1));
-        }
-    });
+    //     // Optional: Fit bounds untuk menampilkan semua marker
+    //     if (camerasData.length > 0) {
+    //         const group = new L.featureGroup(
+    //             camerasData.map(camera => 
+    //                 L.marker([parseFloat(camera.lat), parseFloat(camera.lng)])
+    //             )
+    //         );
+    //         currentMap.fitBounds(group.getBounds().pad(0.1));
+    //     }
+    // });
 </script>
