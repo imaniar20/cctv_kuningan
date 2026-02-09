@@ -799,6 +799,14 @@
                     } else {
                         statusIndicator.removeClass('online').addClass('offline');
                     }
+
+                    if (cameraMarkers[cam.slug]) {
+                        // Cari data camera lengkap untuk dapat name dan id
+                        const cameraData = camerasData.find(c => c.slug === cam.slug);
+                        if (cameraData) {
+                            updateMarkerPopup(cam.slug, cameraData.name, cameraData.id, cam.status);
+                        }
+                    }
                 });
 
                 $("#online-count").text(res.online);
@@ -812,6 +820,44 @@
                     });
                 }
             });
+        }
+
+        function updateMarkerPopup(slug, name, id, status) {
+            const marker = cameraMarkers[slug];
+            if (!marker) return;
+
+            const statusBadge = status === 'online' ?
+                '<span class="popup-status online"><i class="bx bx-wifi me-1"></i>Online</span>' :
+                '<span class="popup-status offline"><i class="bx bx-wifi-off me-1"></i>Offline</span>';
+
+            // Buat popup content baru
+            const popupContent = `
+                <div class="custom-popup">
+                    <div class="popup-header">
+                        <i class='bx bx-cctv me-2'></i>CCTV ${name}
+                    </div>
+                    <div class="popup-body">
+                        <p class="mb-2"><strong>Lokasi:</strong> ${name}</p>
+                        <p class="mb-2"><strong>Status:</strong></p>
+                        ${statusBadge}
+                        <div class="mt-3">
+                            <button class="btn btn-primary btn-sm w-100" onclick="showCameraModal(${id})">
+                                <i class='bx bx-play-circle me-1'></i>Live View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Unbind popup lama, bind popup baru
+            marker.unbindPopup();
+            marker.bindPopup(popupContent, {
+                className: 'custom-popup',
+                maxWidth: 250
+            });
+
+            // Update icon juga
+            marker.setIcon(getCameraIcon(status));
         }
 
         // Initialize map with custom camera icons

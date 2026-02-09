@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark pb_navbar pb_scrolled-light" id="templateux-navbar" style="z-index: 99999">
     <div class="container">
         <!-- Logo di Kiri -->
-        <a class="navbar-brand me-auto" href="#section-home">
+        <a class="navbar-brand me-auto" href="/">
             <img src="{{ asset('assets/img/logo/kuningan.png') }}" style="height: 75px" alt="Logo Kuningan">
         </a>
 
