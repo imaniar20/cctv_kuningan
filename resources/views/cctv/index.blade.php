@@ -225,7 +225,7 @@
                                                     <tr>
                                                         <th style="width: 5%">#</th>
                                                         <th>Nama</th>
-                                                        <th>Foto</th>
+                                                        {{-- <th>Foto</th> --}}
                                                         <th>Grup</th>
                                                         <th>Lat, Lng</th>
                                                         <th>Status</th>
@@ -240,7 +240,7 @@
 <tr data-slug="{{ $data->slug }}">
                                                             <td class="small fw-semibold"><i class="fab fa-angular fa-lg text-danger me-3"></i>{{ $i++ }}</td>
                                                             <td class="small fw-semibold">{{ $data->name }}</td>
-                                                            <td class="small fw-semibold">{{ $data->foto }}</td>
+                                                            {{-- <td class="small fw-semibold">{{ $data->foto }}</td> --}}
                                                             <td class="small fw-semibold">{{ $data->location->nama }}</td>
                                                             <td class="small fw-semibold">{{ $data->lat }}, {{ $data->lng }}</td>
                                                             <td class="small fw-semibold camera-status"><span class="status-text">Checking...</span></td>
