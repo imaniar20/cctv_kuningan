@@ -685,10 +685,10 @@
                                 {{ $item->nama }}
                             </div>
                         </div>
-                        <div class="cctv-scroll-container" id="camera-status-list">
+                        <div id="camera-status-list">
                             @foreach ($item->camera as $data)
                                 <div class="col-6 col-md-3">
-                                    <div class="cctv-scroll-item camera-status" data-slug="{{ $data->slug }}">
+                                    <div class="camera-status" data-slug="{{ $data->slug }}">
                                         <div class="card cctv-card h-100 border-0 shadow">
                                             <div class="card-header py-3">
                                                 <div class="d-flex justify-content-between align-items-center">
