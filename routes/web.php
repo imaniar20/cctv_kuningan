@@ -5,12 +5,15 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CameraController;
 use App\Http\Middleware\CheckLogin;
 
 use App\Models\Camera;
+use App\Models\Location;
 
 Route::get('/', function () {
+    $location = Location::with('camera')->withCount('camera')->get();
     $cameras = Camera::with('location')->get();
     $result = [];
 
@@ -35,6 +38,7 @@ Route::get('/', function () {
     $data = [
         'head' => 'Dashboard',
         'menu' => 'Dashboard',
+        'location' => $location,
         'cameras' => $cameras
     ];
     return view('dashboard/index')->with($data);
@@ -51,6 +55,7 @@ Route::post('/start-camera', [CameraController::class, 'start'])->name('start.ca
 Route::group(['middleware' => 'auth'], function () {
     Route::middleware([CheckLogin::class])->group(function () {
         Route::get('/dashboard', function () {
+            $locations = Location::withCount('camera')->get();
             $cameras = Camera::with('location')->get();
             if($cameras){
                 $statuses = null;
@@ -75,12 +80,14 @@ Route::group(['middleware' => 'auth'], function () {
             $data = [
                 'head' => 'Dashboard',
                 'menu' => 'Dashboard',
+                'locations' => $locations,
                 'cameras' => $cameras,
                 'status' => $statuses
             ];
             return view('cctv/index')->with($data);
         })->name('dashboard');
     });
+    Route::resource('/lokasi', LocationController::class);
     Route::resource('/cctv', CameraController::class);
     
     Route::get('/start-cctv', function () {

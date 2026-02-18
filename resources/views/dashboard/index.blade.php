@@ -16,8 +16,7 @@
             position: relative;
             height: 100vh;
             min-height: 600px;
-            background: linear-gradient(135deg, rgba(13, 110, 253, 0.9) 0%, rgba(255, 193, 7, 0.8) 100%),
-                url('{{ asset('assets/images/hero-bg.jpg') }}') center/cover;
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.9) 0%, rgba(255, 193, 7, 0.8) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -288,6 +287,27 @@
             border: none;
         }
 
+        .cctv-card .card-body {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 130px;
+        }
+
+        .cctv-card .card-body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 0;
+        }
+
+        .cctv-card .card-body > * {
+            position: relative;
+            z-index: 1;
+        }
+
         .cctv-card .card-footer {
             padding: 1rem;
         }
@@ -448,6 +468,26 @@
 
         .modal-backdrop {
             z-index: 99998;
+        }
+
+        .location-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #f5c518;
+            margin: 40px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .location-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #333, transparent);
         }
     </style>
 
@@ -636,9 +676,67 @@
                     </p>
                 </div>
             </div>
-
-            {{-- Horizontal Scroll Container --}}
-            <div class="cctv-scroll-wrapper" data-aos="fade-up">
+            <div class="row g-3">
+                @foreach ($location as $item)
+                    @if ($item->camera_count > 0)
+                        <div class="col-12">
+                            <div class="location-label">
+                                <i class='bx bx-map-pin'></i>
+                                {{ $item->nama }}
+                            </div>
+                        </div>
+                        @foreach ($item->camera as $data)
+                            <div class="col-6 col-md-3">
+                                <div class="card cctv-card h-100 border-0 shadow">
+                                    <div class="card-header py-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-0 fw-bold">
+                                                <i class='bx bx-cctv me-2'></i>
+                                                {{ $data->name }}
+                                            </h5>
+                                            <span class="badge bg-dark">CCTV</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="
+                                                height: 160px;
+                                                background-image: url('{{ $data->foto && file_exists(storage_path('app/public/' . $data->foto)) ? asset('storage/' . $data->foto) : asset('assets_2/image/users/default.png') }}');
+                                                background-size: cover;
+                                                background-position: center;
+                                            ">
+                                        <div class="mb-3">
+                                            <h6 class="text-primary mb-2">
+                                                <i class='bx bx-map-pin me-1'></i>
+                                                {{ $data->name }}
+                                            </h6>
+                                            <p class="text-muted small mb-0">
+                                                <i class='bx bx-time-five me-1'></i>
+                                                Pemantauan 24/7
+                                            </p>
+                                        </div>
+        
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="status-text d-flex align-items-center">
+                                                <span class="status-indicator online me-2"></span>
+                                                <span class="fw-semibold">Checking...</span>
+                                            </div>
+                                            <i class='bx bx-signal-5 text-success fs-5'></i>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-0 pt-0 mt-3">
+                                        <button class="btn btn-primary btn-sm w-100 fw-semibold"
+                                            onclick="showCameraModal({{ $data->id }})">
+                                            <i class='bx bx-play-circle me-1'></i>
+                                            Live View
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                @endforeach
+            </div>
+            
+            {{-- <div class="cctv-scroll-wrapper" data-aos="fade-up">
                 <div class="cctv-scroll-container" id="camera-status-list">
                     @foreach ($cameras as $data)
                         <div class="cctv-scroll-item camera-status" data-slug="{{ $data->slug }}">
@@ -684,7 +782,6 @@
                     @endforeach
                 </div>
 
-                {{-- Scroll Navigation --}}
                 <div class="scroll-navigation d-none d-lg-block">
                     <button class="scroll-btn scroll-prev" onclick="scrollHorizontal(-300)">
                         <i class='bx bx-chevron-left bx-md'></i>
@@ -693,7 +790,7 @@
                         <i class='bx bx-chevron-right bx-md'></i>
                     </button>
                 </div>
-            </div>
+            </div> --}}
 
             {{-- Scroll Indicator --}}
             <div class="row mt-4">

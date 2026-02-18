@@ -8,9 +8,9 @@ use voku\helper\AntiXSS;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Camera;
-use App\Models\Location;
 
 class CameraController extends Controller
 {
@@ -39,9 +39,24 @@ class CameraController extends Controller
         while (Camera::where('slug', $slug)->exists()) {
             $slug = $originalSlug . '-' . $counter++;
         }
+
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+
+            // nama file aman & unik
+            $filename = Str::slug($name) . '-' . time() . '.' . $file->getClientOriginalExtension();
+
+            $fotoPath = $file->storeAs(
+                'cctv/foto',
+                $filename,
+                'public'
+            );
+        }
+
         $cleanedData = [
-            'id_location' => 1,
+            'id_location' => $antiXss->xss_clean($request->input('lokasi')),
             'name' => $name,
+            'foto' => $fotoPath ?? null,
             'slug' => $slug,
             'rtsp_url' => $antiXss->xss_clean($request->input('rtsp')),
             'lat' => $antiXss->xss_clean($request->input('lat')),
@@ -67,9 +82,27 @@ class CameraController extends Controller
         while (Camera::where('slug', $slug)->exists()) {
             $slug = $originalSlug . '-' . $counter++;
         }
+
+        $fotoPath = $camera->foto;
+        if ($request->hasFile('edit_foto')) {
+            $this->deleteFileIfExists($camera->foto);
+
+            $file = $request->file('edit_foto');
+
+            // nama file aman & unik
+            $filename = Str::slug($name) . '-' . time() . '.' . $file->getClientOriginalExtension();
+
+            $fotoPath = $file->storeAs(
+                'cctv/foto',
+                $filename,
+                'public'
+            );
+        }
+
         $cleanedData = [
-            'id_location' => 1,
+            'id_location' => $antiXss->xss_clean($request->input('edit_lokasi')),
             'name' => $name,
+            'foto' => $fotoPath ?? null,
             'slug' => $slug,
             'rtsp_url' => $antiXss->xss_clean($request->input('edit_rtsp')),
             'lat' => $antiXss->xss_clean($request->input('edit_lat')),
@@ -86,10 +119,21 @@ class CameraController extends Controller
         $data = Camera::findOrFail($request->id);
 
         $data->delete();
+        
+        $this->deleteFileIfExists($data->foto);
 
         session()->flash('success', 'Data berhasil dihapus.');
 
         return response()->json(['success' => true]);
+    }
+
+    private function deleteFileIfExists($filePath)
+    {
+        if ($filePath && Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+            return true;
+        }
+        return false;
     }
 
     public function statusCameras()
