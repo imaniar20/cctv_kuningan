@@ -206,16 +206,15 @@
                                             <div class="col-5">
                                                 <h6 class="mt-2">CCTV KABUPATEN KUNINGAN</h6>
                                             </div>
-                                            <div class="col-7 text-end">
-                                                <div class="row">
-                                                    <div class="col-7">
-                                                        <form action="{{ route('start.cctv') }}" method="GET" onsubmit="return confirm('Jalankan CCTV sekarang?')">
-                                                            <button type="submit" class="btn btn-sm btn-warning"><i class="bx bx-refresh"></i> Jalankan Ulang Cctv</button>
-                                                        </form>
-                                                    </div>
-                                                    <div class="col-5">
-                                                        <a href="" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tambahCctv"><i class="bx bx-plus-circle"></i> Tambah Cctv</a>
-                                                    </div>
+                                            <div class="col-7 d-flex justify-content-end gap-2">
+                                                <form action="{{ route('start.cctv') }}" method="GET"
+                                                    onsubmit="return confirm('Jalankan CCTV sekarang?')">
+                                                    <button type="submit" class="btn btn-sm btn-warning">
+                                                        <i class="bx bx-refresh"></i> Jalankan Ulang CCTV
+                                                    </button>
+                                                </form>
+                                                <div>
+                                                    <a href="" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tambahCctv"><i class="bx bx-plus-circle"></i> Tambah Cctv</a>
                                                 </div>
                                             </div>
                                         </div>
