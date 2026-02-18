@@ -289,20 +289,20 @@
     const camerasData = @json($cameras);
 
     // Tambahkan semua markers setelah peta siap
-    currentMap.whenReady(function() {
-        // Loop melalui setiap camera dan tambahkan marker
-        camerasData.forEach(camera => {
-            addCameraMarker(camera);
-        });
+    // currentMap.whenReady(function() {
+    //     // Loop melalui setiap camera dan tambahkan marker
+    //     camerasData.forEach(camera => {
+    //         addCameraMarker(camera);
+    //     });
         
-        // Optional: Fit bounds untuk menampilkan semua marker
-        if (camerasData.length > 0) {
-            const group = new L.featureGroup(
-                camerasData.map(camera => 
-                    L.marker([parseFloat(camera.lat), parseFloat(camera.lng)])
-                )
-            );
-            currentMap.fitBounds(group.getBounds().pad(0.1));
-        }
-    });
+    //     // Optional: Fit bounds untuk menampilkan semua marker
+    //     if (camerasData.length > 0) {
+    //         const group = new L.featureGroup(
+    //             camerasData.map(camera => 
+    //                 L.marker([parseFloat(camera.lat), parseFloat(camera.lng)])
+    //             )
+    //         );
+    //         currentMap.fitBounds(group.getBounds().pad(0.1));
+    //     }
+    // });
 </script>

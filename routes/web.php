@@ -16,23 +16,24 @@ Route::get('/', function () {
     $location = Location::with('camera')->withCount('camera')->get();
     $cameras = Camera::with('location')->get();
     $result = [];
-
-    foreach ($cameras as $cam) {
-        $file = public_path("stream/{$cam->slug}/playlist.m3u8");
-
-        $status = 'offline';
-        if (file_exists($file)) {
-            $lastModified = filemtime($file);
-            if (time() - $lastModified <= 15) {
-                $status = 'online';
+    foreach($location as $item){
+        foreach ($item->camera as $cam) {
+            $file = public_path("stream/{$cam->slug}/playlist.m3u8");
+    
+            $status = 'offline';
+            if (file_exists($file)) {
+                $lastModified = filemtime($file);
+                if (time() - $lastModified <= 15) {
+                    $status = 'online';
+                }
             }
+    
+            $result[] = [
+                'name'   => $cam->name,
+                'slug'   => $cam->slug,
+                'status' => $status,
+            ];
         }
-
-        $result[] = [
-            'name'   => $cam->name,
-            'slug'   => $cam->slug,
-            'status' => $status,
-        ];
     }
 
     $data = [

@@ -685,53 +685,57 @@
                                 {{ $item->nama }}
                             </div>
                         </div>
-                        @foreach ($item->camera as $data)
-                            <div class="col-6 col-md-3">
-                                <div class="card cctv-card h-100 border-0 shadow">
-                                    <div class="card-header py-3">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h5 class="mb-0 fw-bold">
-                                                <i class='bx bx-cctv me-2'></i>
-                                                {{ $data->name }}
-                                            </h5>
-                                            <span class="badge bg-dark">CCTV</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body" style="
-                                                height: 160px;
-                                                background-image: url('{{ $data->foto && file_exists(storage_path('app/public/' . $data->foto)) ? asset('storage/' . $data->foto) : asset('assets_2/image/users/default.png') }}');
-                                                background-size: cover;
-                                                background-position: center;
-                                            ">
-                                        <div class="mb-3">
-                                            <h6 class="text-primary mb-2">
-                                                <i class='bx bx-map-pin me-1'></i>
-                                                {{ $data->name }}
-                                            </h6>
-                                            <p class="text-muted small mb-0">
-                                                <i class='bx bx-time-five me-1'></i>
-                                                Pemantauan 24/7
-                                            </p>
-                                        </div>
-        
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="status-text d-flex align-items-center">
-                                                <span class="status-indicator online me-2"></span>
-                                                <span class="fw-semibold">Checking...</span>
+                        <div class="cctv-scroll-container" id="camera-status-list">
+                            @foreach ($item->camera as $data)
+                                <div class="col-6 col-md-3">
+                                    <div class="cctv-scroll-item camera-status" data-slug="{{ $data->slug }}">
+                                        <div class="card cctv-card h-100 border-0 shadow">
+                                            <div class="card-header py-3">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h5 class="mb-0 fw-bold">
+                                                        <i class='bx bx-cctv me-2'></i>
+                                                        {{ $data->name }}
+                                                    </h5>
+                                                    <span class="badge bg-dark">CCTV</span>
+                                                </div>
                                             </div>
-                                            <i class='bx bx-signal-5 text-success fs-5'></i>
+                                            <div class="card-body" style="
+                                                        height: 160px;
+                                                        background-image: url('{{ $data->foto && file_exists(storage_path('app/public/' . $data->foto)) ? asset('storage/' . $data->foto) : asset('assets_2/image/users/default.png') }}');
+                                                        background-size: cover;
+                                                        background-position: center;
+                                                    ">
+                                                <div class="mb-3">
+                                                    <h6 class="text-primary mb-2">
+                                                        <i class='bx bx-map-pin me-1'></i>
+                                                        {{ $data->name }}
+                                                    </h6>
+                                                    <p class="text-muted small mb-0">
+                                                        <i class='bx bx-time-five me-1'></i>
+                                                        Pemantauan 24/7
+                                                    </p>
+                                                </div>
+                
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="status-text d-flex align-items-center">
+                                                        <span class="status-indicator online me-2"></span>
+                                                        <span class="fw-semibold">Checking...</span>
+                                                    </div>
+                                                    <i class='bx bx-signal-5 text-success fs-5'></i>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer bg-transparent border-0 pt-0 mt-3">
+                                                <button class="btn btn-primary btn-sm w-100 fw-semibold"
+                                                    onclick="showCameraModal({{ $data->id }})">
+                                                    <i class='bx bx-play-circle me-1'></i>
+                                                    Live View
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="card-footer bg-transparent border-0 pt-0 mt-3">
-                                        <button class="btn btn-primary btn-sm w-100 fw-semibold"
-                                            onclick="showCameraModal({{ $data->id }})">
-                                            <i class='bx bx-play-circle me-1'></i>
-                                            Live View
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     @endif
                 @endforeach
             </div>
