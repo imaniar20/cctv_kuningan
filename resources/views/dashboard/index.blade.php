@@ -700,7 +700,7 @@
                                         </div>
                                         <div class="card-body" style="
                                                     height: 160px;
-                                                    background-image: url('{{ $data->foto && file_exists(storage_path('app/public/' . $data->foto)) ? asset('storage/' . $data->foto) : asset('assets_2/image/users/default.png') }}');
+                                                    background-image: url('{{ $data->foto && file_exists(storage_path('app/public/' . $data->foto)) ? asset('storage/' . $data->foto) : asset('assets_2/image/users/default2.png') }}');
                                                     background-size: cover;
                                                     background-position: center;
                                                 ">
